@@ -3,3 +3,6 @@ from PIL import Image
 im = Image.open('Volleyball.jpg')
 #show image
 
+#function that takes in image(emoji, and 
+def emojiread(emoji, inputarr):
+  
