@@ -1,6 +1,10 @@
-def cropSquare(im,size):
+from PIL import Image
+
+#Squarecropfunction
+def cropSquare(filename,size):
     resizeImage = Image.new("RGB", (size,size))
 
+    im = Image.open(filename)
     if (im.width < im.height):
         scale = size/im.width
     else:
