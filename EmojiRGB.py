@@ -1,3 +1,7 @@
+import os
+from PIL import image
+
+
 #function that takes in image(emoji), and list(inputarr) and appends a list containing the average of all R values, all B values, and all G values onto that list
 def emojiread(emoji, inputarr):
   #Getting width and height of image)
