@@ -1,4 +1,5 @@
-#Squarecropfunction
+#takes in a file name and a side length(size)
+#returns the image cropped into a square and then scaled to the requested size for each side length
 def cropSquare(filename,size):
     resizeImage = Image.new("RGB", (size,size))
     fullpath = 'C:\\Users\\lukad\\Algo 2022\\EmojiList\\' + filename
