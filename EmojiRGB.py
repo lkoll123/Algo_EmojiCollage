@@ -1,7 +1,5 @@
 import os
-from PIL import image
-
-
+from PIL import Image
 #function that takes in image(emoji), and list(inputarr) and appends a list containing the average of all R values, all B values, and all G values onto that list
 def emojiread(emoji, inputarr):
   #Getting width and height of image)
@@ -26,18 +24,21 @@ def emojiread(emoji, inputarr):
   inputarr.append(avgRGB)
   
 #Squarecropfunction
-def cropSquare(im,size):
-    resizeImage = Image.new("RGB", (size,size))
-
+def cropSquare(filename,size):
+    fullpath = 'C:\\Users\\lukad\\Algo 2022\\EmojiList\\' + filename
+    im = Image.open(fullpath)
     if (im.width < im.height):
         scale = size/im.width
     else:
         scale = size/im.height
-    
-    for i in range(size):
-        for j in range(size):
-            r,g,b = im.getpixel((i/scale, j/scale))
-            resizeImage.putpixel((i,j), (r,g,b))
+
+    count = 0
+    resizeImage = Image.new("RGB", (int(scale*im.width), int(scale*im.height)))
+    for i in range(0, resizeImage.width):
+        for j in range(0, resizeImage.height):
+            count = count + 1
+            RGB = im.getpixel((int(i/scale), int(j/scale)))
+            resizeImage.putpixel((i, j), (RGB[0], RGB[1], RGB[2]))
 
     return resizeImage
 
@@ -48,7 +49,7 @@ averageRGB = []
 
 def emojiRGB(inputarr):
   #accessing all files in folderEmojiList, which holds all of the emojis
-  for filename in os.listdir("C:\Users\lukad\Algo 2022\EmojiList"):
+  for filename in os.listdir("C:\\Users\\lukad\\Algo 2022\\EmojiList"):
     #using cropSquare function to crop emoji to 50x50 Pixels size, and assigning the resized image to variable resizedimage
     resizedimage = cropSquare(filename, 50)
     emojiread(resizedimage, inputarr)
@@ -57,6 +58,7 @@ def emojiRGB(inputarr):
   
   
 emojiRGB(averageRGB)
+
     
         
   
