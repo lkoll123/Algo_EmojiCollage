@@ -1,7 +1,9 @@
-def avgRGB(im, startX, startY, width, height):
+def avgRGB(filename, startX, startY, width, height):    
     r = 0
     g = 0
     b = 0
+    im = Image.open(filename)
+    
     for i in range(startX, startX + width):
         for j in range(startY, startY + height):
             r += im.getpixel((i,j))[0]
