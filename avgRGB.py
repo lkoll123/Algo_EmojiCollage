@@ -4,7 +4,8 @@ def avgRGB(filename, startX, startY, width, height):
     r = 0
     g = 0
     b = 0
-    im = Image.open(filename)
+    fullpath = 'C:\\Users\\lukad\\Algo 2022\\EmojiList\\' + filename
+    im = Image.open(fullpath)
     
     for i in range(startX, startX + width):
         for j in range(startY, startY + height):
