@@ -64,3 +64,21 @@ def emojiRGB(inputarr):
   
 #Calling emojiRGB
 emojiRGB(averageRGB)
+
+
+#takes in a file name and the multiple by which the height and width should be divisible, and returns the image cropped to fit those parameters
+def cropMultiple(filename, multiple):
+    fullpath = 'C:\\Users\\lukad\\Algo 2022\\EmojiList\\' + filename
+    im = Image.open(fullpath)
+    newWidth = im.width - (im.width % multiple)
+    newHeight = im.height - (im.height % multiple)
+    resizeImage = Image.new("RGB", (newWidth,newHeight))
+    
+    for i in range(newWidth):
+        for j in range(newHeight):
+            r,g,b = im.getpixel((i, j))
+            resizeImage.putpixel((i,j), (r,g,b))
+
+    return resizeImage
+#Using cropMultiple function to crop image Scenic to a square that is a multiple of the emoji width and height(50) 
+cropMultiple('Scenic.jpg', 50):
