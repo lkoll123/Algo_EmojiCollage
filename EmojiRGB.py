@@ -37,8 +37,11 @@ def cropSquare(filename,size):
     for i in range(0, resizeImage.width):
         for j in range(0, resizeImage.height):
             count = count + 1
-            RGB = im.getpixel((int(i/scale), int(j/scale)))
-            resizeImage.putpixel((i, j), (RGB[0], RGB[1], RGB[2]))
+            try:
+                RGB = im.getpixel((int(i/scale), int(j/scale)))
+                resizeImage.putpixel((i, j), (RGB[0], RGB[1], RGB[2]))
+            except:
+                resizeImage.putpixel((i, j), (255, 255, 255))
 
     return resizeImage
 
@@ -49,10 +52,14 @@ averageRGB = []
 
 def emojiRGB(inputarr):
   #accessing all files in folderEmojiList, which holds all of the emojis
+  counter = 0
   for filename in os.listdir("C:\\Users\\lukad\\Algo 2022\\EmojiList"):
+    counter = counter + 1
     #using cropSquare function to crop emoji to 50x50 Pixels size, and assigning the resized image to variable resizedimage
     resizedimage = cropSquare(filename, 50)
     emojiread(resizedimage, inputarr)
+    print(counter)
+      
     
   print(inputarr)
   
