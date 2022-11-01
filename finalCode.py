@@ -128,23 +128,33 @@ def findDistance(rgb, listOfRGBs):
             minIndex = i
     return minIndex
   
-def copyimage(img, xStart, yStart, width, height):
-    for x in range(xStart, xStart + width):
-		    for y in range(yStart, yStart + height):
-			  
-			  img.putpixel((xEnd + (x - xStart), yEnd + (y - yStart)), (origrgb[0], origrgb[1], origrgb[2]))
-			
-	  img.show()
+def Placeimage(img, xStart, yStart, filename, path):
+    fullpathEmoji = path + '\\' + filename + '.png'
+    fullpathImage = path + '\\' + img
+    emoji = Image.open(fullpathEmoji)
+    image = Image.open(fullpathImage)
+    newimg = Image.new("RGB", (image.width, image.height))
+    for x in range(0, emoji.width):
+	for y in range(0, emoji.height):
+	    origrgb = emoji.getpixel((x, y))
+	    newimg.putpixel((xStart + x, yStart + y), (origrgb[0], origrgb[1], origrgb[2]))
+	    
+	    
+	  
+     os.remove(path + "\\" + img)
+     newimg.save(path + "\\" + img, 'PNG')		
+     return newimg
+	
   
 mainImage = cropMultiple('Scenic.jpg', 50, 'C:\\Users\\lukad\\Algo 2022\\EmojiList')
 for x in range(0, mainImage.width/50):
     for y in range(0, mainImage.height/50):
         #Getting the average rgb value of a 50*50 square in image 'Scenic.jpg'
-        avgval = avgRGB(mainImage, 50 * x, 50 * y, 50, 50, 'C:\\Users\\lukad\\Algo 2022\\EmojiList\\')
+        avgval = avgRGB('Scenic.jpg', 50 * x, 50 * y, 50, 50, 'C:\\Users\\lukad\\Algo 2022\\EmojiList\\')
         #Getting the closest RGB value in array averageRGB(holds all of the average RGBS of the emojis), to the avgval found in the given 50*50 square of pixels in image 'Scenic.jpg'
         closeRGB = findDistance(avgval, averageRGB) 
-        
-        copyimage(img, xStart, yStart, xEnd, yEnd, width, height):
+        Final = Placeimage('Scenic.jpg', 50 * x, 50 * y, avgval,'C:\\Users\\lukad\\Algo 2022\\EmojiList'):
+Final.show()
         
         
 
