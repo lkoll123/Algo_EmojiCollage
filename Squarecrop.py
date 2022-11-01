@@ -1,6 +1,6 @@
-#takes in a file name and a side length(size)
+#takes in a file name, side length(size), and location of file (path)
 #returns the image cropped into a square and then scaled to the requested size for each side length
-def cropSquare(filename,size):
+def cropSquare(filename,size,path):
     #stores the path to the specific image in variable fullpath
     fullpath = 'C:\\Users\\lukad\\Algo 2022\\EmojiList\\' + filename
     im = Image.open(fullpath)
@@ -16,4 +16,6 @@ def cropSquare(filename,size):
             RGB = im.getpixel((int(i/scale), int(j/scale)))
             resizeImage.putpixel((i, j), (RGB[0], RGB[1], RGB[2]))
 
+    os.remove(path + "//" + filename)
+    resizeImage.save(path + "//" + filename, 'PNG')
     return resizeImage
