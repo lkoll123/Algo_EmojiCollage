@@ -70,11 +70,6 @@ def emojiRGB(inputarr, pathToPics):
       
   #printing inputarr with all average RGBS for all emojis
   return inputarr
-  
-#Calling emojiRGB
-emojiRGB(averageRGB, 'C:\\Users\\lukad\\Algo 2022\\EmojiList')
-
-
 
 #takes in a file name and the multiple by which the height and width should be divisible, and returns the image cropped to fit those parameters
 def cropMultiple(filename, multiple, path):
@@ -120,7 +115,7 @@ def avgRGB(filename, startX, startY, width, height, path):
   
 #takes in an rgb value in the form of a list, and a list of such rgb values
 #returns the index of the closest rgb value to the set value
-def findDistance(rgb, listOfRGBs):
+def findClosest(rgb, listOfRGBs):
     
     minDistance = (listOfRGBs[0][0] - rgb[0])**2 + (listOfRGBs[0][1] - rgb[1])**2 + (listOfRGBs[0][2] - rgb[2])**2
     for i in range(len(listOfRGBs)):
@@ -133,8 +128,8 @@ def findDistance(rgb, listOfRGBs):
             minIndex = i
     return minIndex
   
-def Placeimage(img, xStart, yStart, filename, pathEmoji, pathImage, new):
-    fullpathEmoji = pathEmoji + '\\' + str(filename) + '.png'
+def Placeimage(img, xStart, yStart, fileNumber, pathEmoji, pathImage, new):
+    fullpathEmoji = pathEmoji + '\\' + str(fileNumber) + '.png'
     fullpathImage = pathImage + '\\' + img
     emoji = Image.open(fullpathEmoji)
     image = Image.open(fullpathImage)
@@ -145,26 +140,27 @@ def Placeimage(img, xStart, yStart, filename, pathEmoji, pathImage, new):
             new.putpixel((xStart + x, yStart + y), (origrgb[0], origrgb[1], origrgb[2]))
                 		
     return newimg
-	
-#Using cropMultiple function to crop image Scenic to a square that is a multiple of the emoji width and height(50)
-cropMultiple('Scenic.jpg', 50, 'C:\\Users\\lukad\\Algo 2022')
-mainImage = Image.open('C:\\Users\\lukad\\Algo 2022\\Scenic.jpg')
+
+pathTwo = 'C:\\Users\\vgonz\\OneDrive\\Documents'  #this is the path to the image, not the emojis
+path = 'C:\\Users\\vgonz\\OneDrive\\Documents\\Algorithm Design\\EmojiPicsShort'  #this is the path to the emojis
+fileName = '900x520_piano-min.jpg'
+
+
+#Calling emojiRGB
+emojiRGB(averageRGB, path)
+#Using cropMultiple function to crop image to a square that is a multiple of the emoji width and height(50)
+cropMultiple(fileName, 50, pathTwo)
+mainImage = Image.open(pathTwo + '\\' + fileName)
 newimg = Image.new("RGB", (mainImage.width, mainImage.height))
-newimg.save('C:\\Users\\lukad\\Algo 2022\\' + 'newimg.jpg', 'PNG')
+newimg.save(pathTwo + 'newimg.jpg', 'PNG')
 for x in range(0, int(mainImage.width/50)):
     for y in range(0, int(mainImage.height/50)):
-        newimage = Image.open('C:\\Users\\lukad\\Algo 2022\\newimg.jpg')
-        #Getting the average rgb value of a 50*50 square in image 'Scenic.jpg'
-        avgval = avgRGB('Scenic.jpg', 50 * x, 50 * y, 50, 50, 'C:\\Users\\lukad\\Algo 2022')
-        #Getting the closest RGB value in array averageRGB(holds all of the average RGBS of the emojis), to the avgval found in the given 50*50 square of pixels in image 'Scenic.jpg'
-        closeRGB = findDistance(avgval, averageRGB)
+        newimage = Image.open(pathTwo + '\\' + fileName)
+        #Getting the average rgb value of a 50*50 square in image fileName
+        avgval = avgRGB(fileName, 50 * x, 50 * y, 50, 50, pathTwo)
+        #Getting the closest RGB value in array averageRGB(holds all of the average RGBS of the emojis), to the avgval found in the given 50*50 square of pixels in image fileName
+        closeRGB = findClosest(avgval, averageRGB)
         
-        Placeimage('Scenic.jpg', 50 * x, 50 * y, closeRGB,'C:\\Users\\lukad\\Algo 2022\\EmojiList', 'C:\\Users\\lukad\\Algo 2022', newimage)
+        Placeimage((str(closeRGB) + '.png'), 50 * x, 50 * y, closeRGB, path , path, newimage)
 
 newimage.show()
-
-        
-
-        
-    
-    
