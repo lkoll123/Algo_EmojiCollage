@@ -141,8 +141,8 @@ def Placeimage(img, xStart, yStart, fileNumber, pathEmoji, pathImage, new):
                 		
     return newimg
 
-pathTwo = 'C:\\Users\\vgonz\\OneDrive\\Documents'  #this is the path to the image, not the emojis
-path = 'C:\\Users\\vgonz\\OneDrive\\Documents\\Algorithm Design\\EmojiPicsShort'  #this is the path to the emojis
+pathTwo = 'C:\\Users\\vgonz\\OneDrive\\Documents'  
+path = 'C:\\Users\\vgonz\\OneDrive\\Documents\\Algorithm Design\\EmojiPics'  
 fileName = '900x520_piano-min.jpg'
 
 
@@ -152,7 +152,7 @@ emojiRGB(averageRGB, path)
 cropMultiple(fileName, 50, pathTwo)
 mainImage = Image.open(pathTwo + '\\' + fileName)
 newimg = Image.new("RGB", (mainImage.width, mainImage.height))
-newimg.save(pathTwo + 'newimg.jpg', 'PNG')
+newimg.save(pathTwo + '\\' + 'newimg.jpg')
 for x in range(0, int(mainImage.width/50)):
     for y in range(0, int(mainImage.height/50)):
         newimage = Image.open(pathTwo + '\\' + 'newimg.jpg')
