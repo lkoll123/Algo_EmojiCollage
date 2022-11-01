@@ -155,7 +155,7 @@ newimg = Image.new("RGB", (mainImage.width, mainImage.height))
 newimg.save(pathTwo + 'newimg.jpg', 'PNG')
 for x in range(0, int(mainImage.width/50)):
     for y in range(0, int(mainImage.height/50)):
-        newimage = Image.open(pathTwo + '\\' + fileName)
+        newimage = Image.open(pathTwo + '\\' + 'newimg.jpg')
         #Getting the average rgb value of a 50*50 square in image fileName
         avgval = avgRGB(fileName, 50 * x, 50 * y, 50, 50, pathTwo)
         #Getting the closest RGB value in array averageRGB(holds all of the average RGBS of the emojis), to the avgval found in the given 50*50 square of pixels in image fileName
