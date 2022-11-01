@@ -1,6 +1,6 @@
 #takes in a file name and the multiple by which the height and width should be divisible, and returns the image cropped to fit those parameters
 def cropMultiple(filename, multiple):
-    fullpath = 'C:\\Users\\lukad\\Algo 2022\\EmojiList\\' + filename
+    fullpath = path + '\\' + filename
     im = Image.open(fullpath)
     newWidth = im.width - (im.width % multiple)
     newHeight = im.height - (im.height % multiple)
@@ -11,4 +11,6 @@ def cropMultiple(filename, multiple):
             r,g,b = im.getpixel((i, j))
             resizeImage.putpixel((i,j), (r,g,b))
 
+    os.remove(path + "//" + filename)
+    resizeImage.save(path + "//" + filename, 'PNG')
     return resizeImage
