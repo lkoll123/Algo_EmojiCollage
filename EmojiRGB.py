@@ -22,12 +22,12 @@ def emojiread(emoji, inputarr):
     avgRGB[j] = avgRGB[j] + int(cumulativeRGB[j]/numpixels)
   #appending averageRGB to inputarr
   inputarr.append(avgRGB)
-  
-#takes in a file name and a side length(size)
+
+ #takes in a file name, side length(size), and location of file (path)
 #returns the image cropped into a square and then scaled to the requested size for each side length
-def cropSquare(filename,size):
+def cropSquare(filename,size,path):
     #stores the path to the specific image in variable fullpath
-    fullpath = 'C:\\Users\\lukad\\Algo 2022\\EmojiList\\' + filename
+    fullpath = path + '\\' + filename
     im = Image.open(fullpath)
     #Generates a scale based off of whether the height or length is longer
     if (im.width < im.height):
@@ -41,8 +41,10 @@ def cropSquare(filename,size):
             RGB = im.getpixel((int(i/scale), int(j/scale)))
             resizeImage.putpixel((i, j), (RGB[0], RGB[1], RGB[2]))
 
-    return resizeImage
-
+    os.remove(path + "//" + filename)
+    resizeImage.save(path + "//" + filename, 'PNG')
+    return resizeImage 
+  
 #Function that uses cropSquare ad emojiread functions to crop, and then append averageRGB values for all emoji to a list
 
 #this list will be a list of lists, holding the averageRGB values of all emojis in a folder
