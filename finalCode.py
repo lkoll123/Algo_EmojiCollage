@@ -38,9 +38,11 @@ def cropSquare(filename,size,path):
     resizeImage = Image.new("RGB", (int(scale*im.width), int(scale*im.height)))
     for i in range(0, resizeImage.width):
         for j in range(0, resizeImage.height):
-            RGB = im.getpixel((int(i/scale), int(j/scale)))
-            resizeImage.putpixel((i, j), (RGB[0], RGB[1], RGB[2]))
-
+            try:
+                RGB = im.getpixel((int(i/scale), int(j/scale)))
+                resizeImage.putpixel((i, j), (RGB[0], RGB[1], RGB[2]))
+            except:
+                resizeImage.putpixel((i, j), (255, 255, 255))
     os.remove(path + "//" + filename)
     resizeImage.save(path + "//" + filename, 'PNG')
     return resizeImage
@@ -59,7 +61,11 @@ def emojiRGB(inputarr, pathToPics):
     #using cropSquare function to crop emoji to 50x50 Pixels size, and assigning the resized image to variable resizedimage
     resizedimage = cropSquare(filename, 50, pathToPics)
     emojiread(resizedimage, inputarr)
-    os.rename(pathToPics + '//' + filename, str(counter) + '.png')
+    try:
+        
+        os.rename(pathToPics + '//' + filename,pathToPics + '//' + str(counter) + '.png')
+    except FileExistsError as e:
+        pass
     counter += 1
       
   #printing inputarr with all average RGBS for all emojis
@@ -85,13 +91,11 @@ def cropMultiple(filename, multiple, path):
 
     os.remove(path + "\\" + filename)
     resizeImage.save(path + "\\" + filename, 'PNG')
+    print(resizeImage.width, resizeImage.height)
     return resizeImage
   
+   
   
-#Using cropMultiple function to crop image Scenic to a square that is a multiple of the emoji width and height(50) 
-  
-#takes in a file name, top left corner coordinates of a part of an image, the width of the section, and the height.
-#returns the average RGB value in that area.
 #takes in a file name, top left corner coordinates of a part of an image, the width of the section, and the height.
 #returns the average RGB value in that area.
 def avgRGB(filename, startX, startY, width, height, path):    
@@ -121,6 +125,7 @@ def findDistance(rgb, listOfRGBs):
     minDistance = (listOfRGBs[0][0] - rgb[0])**2 + (listOfRGBs[0][1] - rgb[1])**2 + (listOfRGBs[0][2] - rgb[2])**2
     for i in range(len(listOfRGBs)):
         currentDistance = 0
+        minIndex = 0
         for j in range(3):
             currentDistance += (listOfRGBs[i][j] - rgb[j])**2
         if (currentDistance < minDistance):
@@ -128,34 +133,36 @@ def findDistance(rgb, listOfRGBs):
             minIndex = i
     return minIndex
   
-def Placeimage(img, xStart, yStart, filename, path):
-    fullpathEmoji = path + '\\' + filename + '.png'
-    fullpathImage = path + '\\' + img
+def Placeimage(img, xStart, yStart, filename, pathEmoji, pathImage, new):
+    fullpathEmoji = pathEmoji + '\\' + str(filename) + '.png'
+    fullpathImage = pathImage + '\\' + img
     emoji = Image.open(fullpathEmoji)
     image = Image.open(fullpathImage)
-    newimg = Image.new("RGB", (image.width, image.height))
+    
     for x in range(0, emoji.width):
-	for y in range(0, emoji.height):
-	    origrgb = emoji.getpixel((x, y))
-	    newimg.putpixel((xStart + x, yStart + y), (origrgb[0], origrgb[1], origrgb[2]))
-	    
-	    
-	  
-     os.remove(path + "\\" + img)
-     newimg.save(path + "\\" + img, 'PNG')		
-     return newimg
+        for y in range(0, emoji.height):
+            origrgb = emoji.getpixel((x, y))
+            new.putpixel((xStart + x, yStart + y), (origrgb[0], origrgb[1], origrgb[2]))
+                		
+    return newimg
 	
-  
-mainImage = cropMultiple('Scenic.jpg', 50, 'C:\\Users\\lukad\\Algo 2022\\EmojiList')
-for x in range(0, mainImage.width/50):
-    for y in range(0, mainImage.height/50):
+#Using cropMultiple function to crop image Scenic to a square that is a multiple of the emoji width and height(50)
+cropMultiple('Scenic.jpg', 50, 'C:\\Users\\lukad\\Algo 2022')
+mainImage = Image.open('C:\\Users\\lukad\\Algo 2022\\Scenic.jpg')
+newimg = Image.new("RGB", (mainImage.width, mainImage.height))
+newimg.save('C:\\Users\\lukad\\Algo 2022\\' + 'newimg.jpg', 'PNG')
+for x in range(0, int(mainImage.width/50)):
+    for y in range(0, int(mainImage.height/50)):
+        newimage = Image.open('C:\\Users\\lukad\\Algo 2022\\newimg.jpg')
         #Getting the average rgb value of a 50*50 square in image 'Scenic.jpg'
-        avgval = avgRGB('Scenic.jpg', 50 * x, 50 * y, 50, 50, 'C:\\Users\\lukad\\Algo 2022\\EmojiList\\')
+        avgval = avgRGB('Scenic.jpg', 50 * x, 50 * y, 50, 50, 'C:\\Users\\lukad\\Algo 2022')
         #Getting the closest RGB value in array averageRGB(holds all of the average RGBS of the emojis), to the avgval found in the given 50*50 square of pixels in image 'Scenic.jpg'
-        closeRGB = findDistance(avgval, averageRGB) 
-        Final = Placeimage('Scenic.jpg', 50 * x, 50 * y, avgval,'C:\\Users\\lukad\\Algo 2022\\EmojiList'):
-Final.show()
+        closeRGB = findDistance(avgval, averageRGB)
         
+        Placeimage('Scenic.jpg', 50 * x, 50 * y, closeRGB,'C:\\Users\\lukad\\Algo 2022\\EmojiList', 'C:\\Users\\lukad\\Algo 2022', newimage)
+
+newimage.show()
+
         
 
         
