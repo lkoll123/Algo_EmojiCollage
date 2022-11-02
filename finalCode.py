@@ -137,10 +137,10 @@ def Placeimage(img, xStart, yStart, fileNumber, pathEmoji, pathImage, new):
             new.putpixel((xStart + x, yStart + y), (origrgb[0], origrgb[1], origrgb[2]))            		
     newimg.save(fullpathImage)
 
-pathTwo = 'C:\\Users\\vgonz\\OneDrive\\Documents'  #path to image
-path = 'C:\\Users\\vgonz\\OneDrive\\Documents\\Algorithm Design\\EmojiPics'  
-fileName = '900x520_piano-min.jpg'
-emojiSize = 50
+pathTwo = 'C:\\Users\\lukad\\Algo 2022'  #path to image
+path = 'C:\\Users\\lukad\\Algo 2022\\EmojiList'  
+fileName = 'Scenic.jpg'
+emojiSize = 10
 
 #this list will be a list of lists, holding the averageRGB values of all emojis in a folder
 averageRGB = []
@@ -152,6 +152,7 @@ mainImage = Image.open(pathTwo + '\\' + fileName)
 newimg = Image.new("RGB", (mainImage.width, mainImage.height))
 newimg.save(pathTwo + '\\' + 'newimg.jpg')
 newimage = Image.open(pathTwo + '\\' + 'newimg.jpg')
+counter = 0
 for x in range(0, int(mainImage.width/emojiSize)):
     for y in range(0, int(mainImage.height/emojiSize)):
         #Getting the average rgb value of a emojiSize*emojiSize square in image fileName
@@ -160,5 +161,7 @@ for x in range(0, int(mainImage.width/emojiSize)):
         closeRGB = findClosest(avgval, averageRGB)
         
         Placeimage('newimg.jpg', emojiSize * x, emojiSize * y, closeRGB, path, pathTwo, newimage)
-
+        counter = counter + 1
+        if(counter%1000) == 0:
+            print(counter)
 newimage.show()
